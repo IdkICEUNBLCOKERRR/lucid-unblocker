@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // DOM Elements
   const loadingScreen = document.getElementById("loading-screen")
   const namePrompt = document.getElementById("name-prompt")
   const appContainer = document.getElementById("app-container")
@@ -8,8 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeWelcome = document.getElementById("close-welcome")
   const nameInput = document.getElementById("name-input")
   const nameSubmit = document.getElementById("name-submit")
-  const greetingMessage = document.querySelector("#greeting-message span")
-  const pingMs = document.getElementById("ping-ms")
+  const greetingText = document.getElementById("greeting-text")
   const navLinks = document.querySelectorAll(".nav-link")
   const pages = document.querySelectorAll(".page")
   const settingsBtn = document.getElementById("settings-btn")
@@ -26,38 +24,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const gamesSearch = document.getElementById("games-search")
   const aboutBlankToggle = document.getElementById("about-blank-toggle")
   const navBarToggle = document.getElementById("nav-bar-toggle")
-  const saveWispBtn = document.getElementById("save-wisp")
-  const wispServerInput = document.getElementById("wisp-server")
+  const tabCloakSelect = document.getElementById("tab-cloak-select")
+  const themeBtns = document.querySelectorAll(".theme-btn")
+  const categoryTabs = document.querySelectorAll(".category-tab")
   const searchForm = document.getElementById("search-form")
   const searchInput = document.getElementById("search-input")
   const aiModel = document.getElementById("ai-model")
-  const themeBtns = document.querySelectorAll(".theme-btn")
 
-  // App State
   let userName = localStorage.getItem("userName") || ""
   let currentPage = "home"
   let currentTab = "proxy"
   let currentTheme = localStorage.getItem("theme") || "default"
+  let currentCategory = "all"
 
-  // Initialize App
   function init() {
-    // Apply saved theme
     document.body.className = `theme-${currentTheme}`
     updateActiveThemeButton()
 
-    // Load settings from localStorage
     loadSettings()
 
-    // Check if about:blank should be used
+    applyTabCloak()
+
     if (window.location !== window.parent.location) {
-      // We're in an iframe, don't do anything
     } else if (localStorage.getItem("aboutBlank") === "true") {
-      // Open in about:blank if not already in it
       openInAboutBlank()
       return
     }
 
-    // Simulate loading (shorter timeout)
     setTimeout(() => {
       loadingScreen.classList.add("hidden")
 
@@ -70,21 +63,68 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 2000)
 
-    // Update ping randomly
-    updatePing()
-    setInterval(updatePing, 5000)
+    updateTime()
+    updateBattery()
+    setInterval(updateTime, 60000)
 
-    // Load apps and games
     loadApps()
     loadGames()
 
-    // Add initial AI messages
     addAIMessage(
       "Welcome! I'm here to assist you. Feel free to ask me anything about math, coding, or general questions.",
     )
+
+    const discordBanner = document.querySelector(".discord-banner")
+    if (discordBanner) {
+      discordBanner.addEventListener("click", () => {
+        window.open("https://discord.gg/XUKc3ceXUA", "_blank")
+      })
+    }
   }
 
-  // Open in about:blank
+  function applyTabCloak() {
+    const cloakType = localStorage.getItem("tabCloak") || "default"
+
+    if (cloakType !== "default") {
+      let title, favicon
+
+      switch (cloakType) {
+        case "google":
+          title = "Google"
+          favicon = "https://www.google.com/favicon.ico"
+          break
+        case "drive":
+          title = "Google Drive"
+          favicon = "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
+          break
+        case "classroom":
+          title = "Google Classroom"
+          favicon = "https://ssl.gstatic.com/classroom/favicon.png"
+          break
+        case "canvas":
+          title = "Dashboard"
+          favicon = "https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico"
+          break
+        case "zoom":
+          title = "Zoom Meeting"
+          favicon = "https://st1.zoom.us/zoom.ico"
+          break
+        default:
+          return
+      }
+
+      document.title = title
+
+      let link = document.querySelector("link[rel~='icon']")
+      if (!link) {
+        link = document.createElement("link")
+        link.rel = "icon"
+        document.head.appendChild(link)
+      }
+      link.href = favicon
+    }
+  }
+
   function openInAboutBlank() {
     const popup = window.open("about:blank", "_blank")
     if (popup) {
@@ -105,57 +145,68 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Update ping with random value
-  function updatePing() {
-    // Randomly decide if we should show "Waiting..." (20% chance)
-    if (Math.random() < 0.2) {
-      pingMs.textContent = "Waiting..."
+  function updateTime() {
+    const now = new Date()
+    let hours = now.getHours()
+    let minutes = now.getMinutes()
+    const ampm = hours >= 12 ? "PM" : "AM"
+
+    hours = hours % 12
+    hours = hours ? hours : 12
+    minutes = minutes < 10 ? "0" + minutes : minutes
+
+    const timeString = `${hours}:${minutes} ${ampm}`
+    document.getElementById("time-display").textContent = timeString
+  }
+
+  function updateBattery() {
+    if ("getBattery" in navigator) {
+      navigator.getBattery().then((battery) => {
+        const level = Math.floor(battery.level * 100)
+        document.getElementById("battery-display").textContent = `${level}%`
+
+        battery.addEventListener("levelchange", () => {
+          const updatedLevel = Math.floor(battery.level * 100)
+          document.getElementById("battery-display").textContent = `${updatedLevel}%`
+        })
+      })
     } else {
-      const ping = Math.floor(Math.random() * 100) + 50
-      pingMs.textContent = `${ping} ms`
+      document.getElementById("battery-display").textContent = "N/A"
     }
   }
 
-  // Show welcome notification
   function showWelcomeNotification() {
     welcomeMessage.textContent = `Hey, ${userName} welcome back to Lucid!`
     welcomeNotification.classList.remove("hidden")
 
-    // Auto hide after 5 seconds
     setTimeout(() => {
       welcomeNotification.classList.add("hidden")
     }, 5000)
   }
 
-  // Load settings from localStorage
   function loadSettings() {
-    // About:blank setting
     const aboutBlankSetting = localStorage.getItem("aboutBlank")
     if (aboutBlankSetting === "true") {
       aboutBlankToggle.checked = true
     }
 
-    // Nav bar setting
     const navBarSetting = localStorage.getItem("navBarToggle")
     if (navBarSetting === "false") {
       navBarToggle.checked = false
     }
 
-    // Wisp server setting
-    const wispServer = localStorage.getItem("wispServer")
-    if (wispServer) {
-      wispServerInput.value = wispServer
+    const tabCloak = localStorage.getItem("tabCloak")
+    if (tabCloak) {
+      tabCloakSelect.value = tabCloak
     }
   }
 
-  // Save settings to localStorage
   function saveSettings() {
     localStorage.setItem("aboutBlank", aboutBlankToggle.checked)
     localStorage.setItem("navBarToggle", navBarToggle.checked)
-    localStorage.setItem("wispServer", wispServerInput.value)
+    localStorage.setItem("tabCloak", tabCloakSelect.value)
   }
 
-  // Update active theme button
   function updateActiveThemeButton() {
     themeBtns.forEach((btn) => {
       if (btn.getAttribute("data-theme") === currentTheme) {
@@ -166,7 +217,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Event Listeners
   nameSubmit.addEventListener("click", () => {
     const name = nameInput.value.trim()
     if (name) {
@@ -204,12 +254,21 @@ document.addEventListener("DOMContentLoaded", () => {
   closeSettings.addEventListener("click", () => {
     saveSettings()
     settingsModal.classList.add("hidden")
+
+    applyTabCloak()
   })
 
   tabBtns.forEach((btn) => {
     btn.addEventListener("click", function () {
       const tab = this.getAttribute("data-tab")
       changeTab(tab)
+    })
+  })
+
+  categoryTabs.forEach((tab) => {
+    tab.addEventListener("click", function () {
+      const category = this.getAttribute("data-category")
+      changeCategory(category)
     })
   })
 
@@ -231,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
     filterGames(this.value)
   })
 
-  // Settings event listeners
   aboutBlankToggle.addEventListener("change", function () {
     localStorage.setItem("aboutBlank", this.checked)
   })
@@ -240,12 +298,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("navBarToggle", this.checked)
   })
 
-  saveWispBtn.addEventListener("click", () => {
-    localStorage.setItem("wispServer", wispServerInput.value)
-    alert("Wisp server saved!")
+  tabCloakSelect.addEventListener("change", function () {
+    localStorage.setItem("tabCloak", this.value)
   })
 
-  // Theme buttons
   themeBtns.forEach((btn) => {
     btn.addEventListener("click", function () {
       const theme = this.getAttribute("data-theme")
@@ -256,24 +312,19 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Search form submission
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault()
 
     const query = searchInput.value.trim()
     if (!query) return
 
-    // Create a proxy URL
     let url
     if (/^https?:\/\//.test(query) || /^[a-zA-Z0-9][\w\-.]+\.[a-zA-Z]{2,}/.test(query)) {
-      // It's likely a URL
       url = /^https?:\/\//.test(query) ? query : `https://${query}`
     } else {
-      // It's a search query
       url = `https://www.google.com/search?q=${encodeURIComponent(query)}`
     }
 
-    // Open in a new tab or current window based on settings
     if (localStorage.getItem("navBarToggle") === "false") {
       window.location.href = url
     } else {
@@ -281,7 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  // Functions
   function updateGreeting() {
     const hour = new Date().getHours()
     let greeting = "Good "
@@ -295,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     greeting += ", " + userName + "!"
-    greetingMessage.textContent = greeting
+    greetingText.textContent = greeting
   }
 
   function changePage(page) {
@@ -336,6 +386,35 @@ document.addEventListener("DOMContentLoaded", () => {
         pane.classList.remove("active")
       }
     })
+  }
+
+  function changeCategory(category) {
+    currentCategory = category
+
+    categoryTabs.forEach((tab) => {
+      if (tab.getAttribute("data-category") === category) {
+        tab.classList.add("active")
+      } else {
+        tab.classList.remove("active")
+      }
+    })
+
+    const gameCards = document.querySelectorAll(".game-card")
+
+    if (category === "all") {
+      gameCards.forEach((card) => {
+        card.style.display = "flex"
+      })
+    } else {
+      gameCards.forEach((card) => {
+        const gameCategory = card.getAttribute("data-category")
+        if (gameCategory === category) {
+          card.style.display = "flex"
+        } else {
+          card.style.display = "none"
+        }
+      })
+    }
   }
 
   function addUserMessage(text) {
@@ -386,27 +465,20 @@ document.addEventListener("DOMContentLoaded", () => {
     chatMessages.scrollTop = chatMessages.scrollHeight
   }
 
-  // Advanced AI response function
   async function getAIResponse(query, model) {
-    // Simulate API call to a real AI service
     return new Promise((resolve) => {
       setTimeout(() => {
         const lowerQuery = query.toLowerCase()
 
-        // Math model responses
         if (model === "math") {
           try {
-            // Handle basic math operations
-            if (/[\d+\-*/$$$$^%]+/.test(query.replace(/\s/g, ""))) {
-              // Replace 'x' with '*' for multiplication
+            if (/[\d+\-*/^%]+/.test(query.replace(/\s/g, ""))) {
               const sanitizedQuery = query.replace(/×/g, "*").replace(/x(?=\d)/gi, "*")
-              // Use Function constructor to safely evaluate math expressions
               const result = new Function(`return ${sanitizedQuery}`)()
               resolve(`${query} = ${result}`)
               return
             }
 
-            // Handle word problems
             if (
               lowerQuery.includes("solve") ||
               lowerQuery.includes("calculate") ||
@@ -428,10 +500,7 @@ document.addEventListener("DOMContentLoaded", () => {
             resolve("I couldn't process that math expression. Please check the syntax and try again.")
             return
           }
-        }
-
-        // Code model responses
-        else if (model === "code") {
+        } else if (model === "code") {
           if (lowerQuery.includes("javascript") || lowerQuery.includes("js")) {
             if (lowerQuery.includes("function") || lowerQuery.includes("create")) {
               resolve(`Here's a JavaScript function example:
@@ -521,8 +590,6 @@ This creates a centered box with a blue background and white text.`)
           return
         }
 
-        // General model responses (default)
-        // Current events responses
         if (lowerQuery.includes("latest update") && lowerQuery.includes("america")) {
           resolve(
             "The latest major updates from America include ongoing discussions about economic policies, recent legislative changes, and preparations for upcoming elections. There have also been developments in international relations and trade agreements.",
@@ -530,7 +597,6 @@ This creates a centered box with a blue background and white text.`)
           return
         }
 
-        // Revision requests
         if (lowerQuery.includes("revise") || lowerQuery.includes("improve") || lowerQuery.includes("fix")) {
           const improvedText = query.replace(/revise this sentence:|improve this:|fix this:/gi, "").trim()
           resolve(
@@ -539,7 +605,6 @@ This creates a centered box with a blue background and white text.`)
           return
         }
 
-        // Educational content
         if (lowerQuery.includes("explain") || lowerQuery.includes("how does") || lowerQuery.includes("what is")) {
           if (lowerQuery.includes("proxy") || lowerQuery.includes("ultraviolet")) {
             resolve(
@@ -561,7 +626,6 @@ This creates a centered box with a blue background and white text.`)
           return
         }
 
-        // Default responses
         const responses = [
           "I understand your question. To provide a more accurate response, I'd need access to a larger knowledge base. You can try searching for this information using the search function on the home page.",
           "That's an interesting question. While I have limited knowledge, I can tell you that this topic has various perspectives and developments. For more detailed information, try using the search function.",
@@ -578,7 +642,6 @@ This creates a centered box with a blue background and white text.`)
       addUserMessage(text)
       chatInput.value = ""
 
-      // Show typing indicator
       const typingDiv = document.createElement("div")
       typingDiv.className = "message ai-message typing"
 
@@ -601,7 +664,6 @@ This creates a centered box with a blue background and white text.`)
       chatMessages.appendChild(typingDiv)
       chatMessages.scrollTop = chatMessages.scrollHeight
 
-      // Get AI response based on selected model
       try {
         const selectedModel = aiModel.value
         const response = await getAIResponse(text, selectedModel)
@@ -618,7 +680,7 @@ This creates a centered box with a blue background and white text.`)
     const apps = [
       {
         name: "Crazy Games",
-        icon: "https://play-lh.googleusercontent.com/eaW5v2iQxIAO-hkGNsyQPnVRZwDI7kHPxvvRrFFRmAMKBJy_XUBZzSzTMiqJmSPnqg",
+        icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Crazygames_jpg_logo.jpg-Wk30xY3Z7Z2K0ZmMYHRC7VhCZqDptd.jpeg",
       },
       { name: "YouTube", icon: "https://www.youtube.com/s/desktop/e4d15d2c/img/favicon_144x144.png" },
       { name: "GitHub", icon: "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" },
@@ -627,22 +689,29 @@ This creates a centered box with a blue background and white text.`)
       { name: "Spotify", icon: "https://open.spotifycdn.com/cdn/images/favicon.0f31d2ea.ico" },
       {
         name: "Discord",
-        icon: "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.png",
+        icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/discord-logo-icon-editorial-free-vector.jpg-xOoha2g2FQHEmGEFfvkdwDmSz9hzVn.jpeg",
       },
       { name: "X", icon: "https://abs.twimg.com/responsive-web/client-web/icon-ios.b1fc727a.png" },
       { name: "Twitch", icon: "https://static.twitchcdn.net/assets/favicon-32-e29e246c157142c94346.png" },
       { name: "Steam", icon: "https://store.steampowered.com/favicon.ico" },
+      { name: "Netflix", icon: "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.ico" },
+      { name: "ChatGPT", icon: "https://chat.openai.com/apple-touch-icon.png" },
+      { name: "Amazon", icon: "https://www.amazon.com/favicon.ico" },
+      { name: "Instagram", icon: "https://static.cdninstagram.com/rsrc.php/v3/yR/r/herXRHJz6vq.png" },
+      {
+        name: "TikTok",
+        icon: "https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/logo-1d0a162ff212a9e5590d4e5d64aaa461.png",
+      },
     ]
 
     apps.forEach((app) => {
       const appCard = document.createElement("div")
       appCard.className = "app-card"
       appCard.innerHTML = `
-                <img src="${app.icon}" alt="${app.name}" class="app-icon">
+                <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
                 <div class="app-name">${app.name}</div>
             `
 
-      // Add click handler to open app
       appCard.addEventListener("click", () => {
         let url
         switch (app.name) {
@@ -676,11 +745,25 @@ This creates a centered box with a blue background and white text.`)
           case "Crazy Games":
             url = "https://www.crazygames.com"
             break
+          case "Netflix":
+            url = "https://www.netflix.com"
+            break
+          case "ChatGPT":
+            url = "https://chat.openai.com"
+            break
+          case "Amazon":
+            url = "https://www.amazon.com"
+            break
+          case "Instagram":
+            url = "https://www.instagram.com"
+            break
+          case "TikTok":
+            url = "https://www.tiktok.com"
+            break
           default:
             url = "https://www.google.com"
         }
 
-        // Open URL
         window.open(url, "_blank")
       })
 
@@ -691,61 +774,184 @@ This creates a centered box with a blue background and white text.`)
   function loadGames() {
     const games = [
       {
-         name: "Poly Track",
-         icon: "https://img.crazygames.com/polytrack.png",
-         url: "https://www.crazygames.com/game/polytrack",
-       },
-       {
-         name: "10 Minutes Till Dawn",
-         icon: "https://img.crazygames.com/10-minutes-till-dawn.png",
-         url: "https://www.crazygames.com/game/10-minutes-till-dawn",
-       },
-       {
-         name: "Geometry Dash",
-         icon: "https://img.crazygames.com/geometry-dash-online.png",
-         url: "https://www.crazygames.com/game/geometry-dash-online",
-       },
-       { name: "Slope", icon: "https://img.crazygames.com/slope.png", url: "https://www.crazygames.com/game/slope" },
-       {
-         name: "Drive Mad",
-         icon: "https://img.crazygames.com/drive-mad.png",
-         url: "https://www.crazygames.com/game/drive-mad",
-       },
-       { name: "1v1.LOL", icon: "https://1v1.lol/splash.png", url: "https://1v1.lol" },
-       {
-         name: "Papa Scooperia",
-         icon: "https://img.crazygames.com/papas-scooperia.png",
-         url: "https://www.coolmathgames.com/0-papas-scooperia",
-       },
-       {
-         name: "Chess",
-         icon: "https://www.chess.com/bundles/web/images/logo_chess.png",
-         url: "https://www.chess.com/play/online",
-       },
-       { name: "Bonk.io", icon: "https://bonk.io/favicon.ico", url: "https://bonk.io" },
-       { name: "Basket Bros", icon: "https://basketbros.io/img/splash.png", url: "https://basketbros.io" },
-       { name: "Bloxd.io", icon: "https://bloxd.io/favicon.ico", url: "https://bloxd.io" },
-       {
-         name: "Bullet Force",
-         icon: "https://img.crazygames.com/bullet-force-multiplayer.png",
-         url: "https://www.crazygames.com/game/bullet-force-multiplayer",
-       },
-       { name: "Smash Karts", icon: "https://smashkarts.io/favicon.ico", url: "https://smashkarts.io" },
-       { name: "Shell Shockers", icon: "https://shellshock.io/favicon.ico", url: "https://shellshock.io" },
-       { name: "EvoWars.io", icon: "https://evowars.io/favicon.ico", url: "https://evowars.io" },
-       { name: "Krunker.io", icon: "https://krunker.io/img/favicon.ico", url: "https://krunker.io" },
-       { name: "Drive Mad", icon: "https://cdn.statically.io/gh/IdkICEUNBLCOKERRR/lucid-unblocker/main/drive-mad/logo.jpg", url: "drive-mad/index.html" },
+        name: "Poly Track",
+        icon: "https://img.crazygames.com/polytrack.png",
+        url: "https://www.crazygames.com/game/polytrack",
+        category: "action",
+      },
+      {
+        name: "10 Minutes Till Dawn",
+        icon: "https://img.crazygames.com/10-minutes-till-dawn.png",
+        url: "https://www.crazygames.com/game/10-minutes-till-dawn",
+        category: "action",
+      },
+      {
+        name: "Geometry Dash",
+        icon: "https://img.crazygames.com/geometry-dash-online.png",
+        url: "https://www.crazygames.com/game/geometry-dash-online",
+        category: "popular",
+      },
+      {
+        name: "Slope",
+        icon: "https://img.crazygames.com/slope.png",
+        url: "https://www.crazygames.com/game/slope",
+        category: "popular",
+      },
+      {
+        name: "Drive Mad",
+        icon: "https://img.crazygames.com/drive-mad.png",
+        url: "https://www.crazygames.com/game/drive-mad",
+        category: "action",
+      },
+      { name: "1v1.LOL", icon: "https://1v1.lol/splash.png", url: "https://1v1.lol", category: "multiplayer" },
+      {
+        name: "Papa Scooperia",
+        icon: "https://img.crazygames.com/papas-scooperia.png",
+        url: "https://www.coolmathgames.com/0-papas-scooperia",
+        category: "puzzle",
+      },
+      {
+        name: "Chess",
+        icon: "https://www.chess.com/bundles/web/images/logo_chess.png",
+        url: "https://www.chess.com/play/online",
+        category: "puzzle",
+      },
+      { name: "Bonk.io", icon: "https://bonk.io/favicon.ico", url: "https://bonk.io", category: "multiplayer" },
+      {
+        name: "Basket Bros",
+        icon: "https://basketbros.io/img/splash.png",
+        url: "https://basketbros.io",
+        category: "multiplayer",
+      },
+      { name: "Bloxd.io", icon: "https://bloxd.io/favicon.ico", url: "https://bloxd.io", category: "multiplayer" },
+      {
+        name: "Bullet Force",
+        icon: "https://img.crazygames.com/bullet-force-multiplayer.png",
+        url: "https://www.crazygames.com/game/bullet-force-multiplayer",
+        category: "action",
+      },
+      {
+        name: "Smash Karts",
+        icon: "https://smashkarts.io/favicon.ico",
+        url: "https://smashkarts.io",
+        category: "popular",
+      },
+      {
+        name: "Shell Shockers",
+        icon: "https://shellshock.io/favicon.ico",
+        url: "https://shellshock.io",
+        category: "multiplayer",
+      },
+      {
+        name: "EvoWars.io",
+        icon: "https://evowars.io/favicon.ico",
+        url: "https://evowars.io",
+        category: "multiplayer",
+      },
+      {
+        name: "Krunker.io",
+        icon: "https://krunker.io/img/favicon.ico",
+        url: "https://krunker.io",
+        category: "popular",
+      },
+      {
+        name: "Minecraft Classic",
+        icon: "https://classic.minecraft.net/favicon.ico",
+        url: "https://classic.minecraft.net",
+        category: "popular",
+      },
+      {
+        name: "Wordle",
+        icon: "https://www.nytimes.com/games/wordle/images/NYT-Wordle-Icon-192.png",
+        url: "https://www.nytimes.com/games/wordle/index.html",
+        category: "puzzle",
+      },
+      { name: "2048", icon: "https://play2048.co/favicon.ico", url: "https://play2048.co", category: "puzzle" },
+      {
+        name: "Retro Bowl",
+        icon: "https://retro-bowl.com/img/icon.png",
+        url: "https://retro-bowl.com",
+        category: "action",
+      },
+      {
+        name: "Flappy Bird",
+        icon: "https://flappybird.io/favicon.ico",
+        url: "https://flappybird.io",
+        category: "popular",
+      },
+      {
+        name: "Subway Surfers",
+        icon: "https://www.subway-surfers.com/favicon.ico",
+        url: "https://www.subway-surfers.com/",
+        category: "popular",
+      },
+      { name: "Agar.io", icon: "https://agar.io/favicon.ico", url: "https://agar.io", category: "multiplayer" },
+      {
+        name: "Slither.io",
+        icon: "https://slither.io/favicon.ico",
+        url: "https://slither.io",
+        category: "multiplayer",
+      },
+      {
+        name: "Moto X3M",
+        icon: "https://img.crazygames.com/motox3m.png",
+        url: "https://www.crazygames.com/game/moto-x3m",
+        category: "action",
+      },
+      {
+        name: "Vex 5",
+        icon: "https://img.crazygames.com/vex-5.png",
+        url: "https://www.crazygames.com/game/vex-5",
+        category: "action",
+      },
+      {
+        name: "Drift Hunters",
+        icon: "https://img.crazygames.com/drift-hunters.png",
+        url: "https://www.crazygames.com/game/drift-hunters",
+        category: "action",
+      },
+      {
+        name: "Tunnel Rush",
+        icon: "https://img.crazygames.com/tunnel-rush.png",
+        url: "https://www.crazygames.com/game/tunnel-rush",
+        category: "action",
+      },
+      {
+        name: "Tetris",
+        icon: "https://tetris.com/favicon.ico",
+        url: "https://tetris.com/play-tetris",
+        category: "puzzle",
+      },
+      {
+        name: "Cut the Rope",
+        icon: "https://www.crazygames.com/game/cut-the-rope",
+        url: "https://www.crazygames.com/game/cut-the-rope",
+        category: "puzzle",
+      },
+      {
+        name: "Crossy Road",
+        icon: "https://www.crazygames.com/game/crossy-road",
+        url: "https://www.crazygames.com/game/crossy-road",
+        category: "popular",
+      },
+      {
+        name: "Among Us",
+        icon: "https://www.crazygames.com/game/among-us",
+        url: "https://www.crazygames.com/game/among-us",
+        category: "popular",
+      },
     ]
 
     games.forEach((game) => {
       const gameCard = document.createElement("div")
       gameCard.className = "game-card"
+      gameCard.setAttribute("data-category", game.category)
       gameCard.innerHTML = `
+                <div class="game-category">${game.category}</div>
                 <img src="${game.icon}" alt="${game.name}" class="game-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
                 <div class="game-name">${game.name}</div>
             `
 
-      // Add click handler to open game
       gameCard.addEventListener("click", () => {
         if (game.url) {
           window.open(game.url, "_blank")
@@ -782,16 +988,23 @@ This creates a centered box with a blue background and white text.`)
         card.style.display = "none"
       }
     })
+
+    if (query) {
+      categoryTabs.forEach((tab) => {
+        if (tab.getAttribute("data-category") === "all") {
+          tab.classList.add("active")
+        } else {
+          tab.classList.remove("active")
+        }
+      })
+    }
   }
 
-  // Initialize the app
   init()
 
-  // Force the loading screen to disappear after 4 seconds
   setTimeout(() => {
     loadingScreen.classList.add("hidden")
 
-    // Check if user exists in localStorage
     const userName = localStorage.getItem("userName")
     if (userName) {
       appContainer.classList.remove("hidden")
