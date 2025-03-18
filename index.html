@@ -1,335 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucid</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lucid</title>
+   <link rel="stylesheet" href="styles.css">
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-        </div>
-        <p>We're getting your content ready, please wait...</p>
-    </div>
+   <div id="loading-screen">
+       <div class="loading-icon">
+           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+               <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+           </svg>
+       </div>
+       <p>We're getting your content ready, please wait...</p>
+       <div class="loading-bar">
+           <div class="loading-progress"></div>
+       </div>
+   </div>
 
-    <!-- Name Prompt -->
-    <div id="name-prompt" class="hidden">
-        <div class="name-prompt-container">
-            <h2>Please enter a name so we know what to call you:</h2>
-            <div class="input-container">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <input type="text" id="name-input" placeholder="Your name">
-            </div>
-            <button id="name-submit" class="btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                </svg>
-                Done
-            </button>
-        </div>
-    </div>
+   <div id="name-prompt" class="hidden">
+       <div class="name-prompt-container">
+           <h2>Please enter a name so we know what to call you:</h2>
+           <div class="input-container">
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                   <circle cx="12" cy="7" r="4"></circle>
+               </svg>
+               <input type="text" id="name-input" placeholder="Your name">
+           </div>
+           <button id="name-submit" class="btn-primary">
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M5 12h14"></path>
+                   <path d="m12 5 7 7-7 7"></path>
+               </svg>
+               Done
+           </button>
+       </div>
+   </div>
 
-    <!-- Welcome Notification -->
-    <div id="welcome-notification" class="hidden">
-        <div class="welcome-content">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 8v4"></path>
-                <path d="M12 16h.01"></path>
-            </svg>
-            <span id="welcome-message">Hey, welcome back to Lucid!</span>
-        </div>
-        <button id="close-welcome" class="close-btn">×</button>
-    </div>
+   <div id="welcome-notification" class="hidden">
+       <div class="welcome-content">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <circle cx="12" cy="12" r="10"></circle>
+               <path d="M12 8v4"></path>
+               <path d="M12 16h.01"></path>
+           </svg>
+           <span id="welcome-message">Hey, welcome back to Lucid!</span>
+       </div>
+       <button id="close-welcome" class="close-btn">×</button>
+   </div>
 
-    <!-- Main App Container -->
-    <div id="app-container" class="hidden">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <div class="navbar-container">
-                <div class="navbar-left">
-                    <a href="#" class="logo" data-page="home">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                        </svg>
-                        <span>Lucid</span>
-                    </a>
-                    <div class="nav-links">
-                        <a href="#" class="nav-link active" data-page="home">Home</a>
-                        <a href="#" class="nav-link" data-page="games">Games</a>
-                        <a href="#" class="nav-link" data-page="apps">Apps</a>
-                        <a href="#" class="nav-link" data-page="movies">Movies</a>
-                        <a href="#" class="nav-link" data-page="ai">AI</a>
-                    </div>
-                </div>
-                <div class="navbar-right">
-                    <button id="settings-btn" class="settings-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </nav>
+   <div id="app-container" class="hidden">
+       <nav class="navbar">
+           <div class="navbar-container">
+               <div class="navbar-left">
+                   <a href="#" class="logo" data-page="home">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                       </svg>
+                       <span>Lucid</span>
+                   </a>
+                   <div class="nav-links">
+                       <a href="#" class="nav-link active" data-page="home">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                               <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                           </svg>
+                           Home
+                       </a>
+                       <a href="#" class="nav-link" data-page="games">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                               <polyline points="17 2 12 7 7 2"></polyline>
+                           </svg>
+                           Games
+                       </a>
+                       <a href="#" class="nav-link" data-page="apps">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <rect x="3" y="3" width="7" height="7"></rect>
+                               <rect x="14" y="3" width="7" height="7"></rect>
+                               <rect x="14" y="14" width="7" height="7"></rect>
+                               <rect x="3" y="14" width="7" height="7"></rect>
+                           </svg>
+                           Apps
+                       </a>
+                       <a href="#" class="nav-link" data-page="movies">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                               <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                           </svg>
+                           Movies
+                       </a>
+                       <a href="#" class="nav-link" data-page="ai">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="M12 2a8 8 0 0 0-8 8c0 5.2 3.4 8.2 8 14 4.6-5.8 8-8.8 8-14a8 8 0 0 0-8-8Z"></path>
+                               <path d="M12 6v4"></path>
+                               <path d="M12 14h.01"></path>
+                           </svg>
+                           AI
+                       </a>
+                   </div>
+               </div>
+               <div class="navbar-right">
+                   <button id="settings-btn" class="settings-btn">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="3"></circle>
+                           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                       </svg>
+                   </button>
+               </div>
+           </div>
+       </nav>
 
-        <main>
-            <!-- Home Page -->
-            <section id="home-page" class="page active">
-                <div class="home-content">
-                    <h1 class="site-title">Lucid.</h1>
-                    <form id="search-form">
-                        <div class="search-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.3-4.3"></path>
-                            </svg>
-                            <input type="text" id="search-input" placeholder="Unblock the world!">
-                        </div>
-                    </form>
-                    <div class="ping-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-                            <line x1="12" y1="20" x2="12" y2="20"></line>
-                        </svg>
-                        <span>Ping: <span id="ping-ms">Waiting...</span></span>
-                    </div>
-                    <div class="greeting-message">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <path d="M12 1v2"></path>
-                            <path d="M12 21v2"></path>
-                            <path d="M4.22 4.22l1.42 1.42"></path>
-                            <path d="M18.36 18.36l1.42 1.42"></path>
-                            <path d="M1 12h2"></path>
-                            <path d="M21 12h2"></path>
-                            <path d="M4.22 19.78l1.42-1.42"></path>
-                            <path d="M18.36 5.64l1.42-1.42"></path>
-                        </svg>
-                        <span id="greeting-text">Good afternoon, Nate!</span>
-                    </div>
-                </div>
-            </section>
+       <main>
+           <section id="home-page" class="page active">
+               <div class="home-content">
+                   <div class="logo-animation">
+                       <div class="logo-circle"></div>
+                       <h1 class="site-title">Lucid<span class="title-dot">.</span></h1>
+                   </div>
+                   <form id="search-form">
+                       <div class="search-container">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <circle cx="11" cy="11" r="8"></circle>
+                               <path d="m21 21-4.3-4.3"></path>
+                           </svg>
+                           <input type="text" id="search-input" placeholder="Unblock the world!">
+                       </div>
+                   </form>
+                   <div class="device-info">
+   <div class="time-display">
+       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <circle cx="12" cy="12" r="10"></circle>
+           <polyline points="12 6 12 12 16 14"></polyline>
+       </svg>
+       <span id="time-display">00:00</span>
+   </div>
+   <div class="battery-display">
+       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <rect x="1" y="6" width="18" height="12" rx="2" ry="2"></rect>
+           <line x1="23" y1="13" x2="23" y2="11"></line>
+       </svg>
+       <span id="battery-display">100%</span>
+   </div>
+</div>
+                   <div class="greeting-message">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="5"></circle>
+                           <path d="M12 1v2"></path>
+                           <path d="M12 21v2"></path>
+                           <path d="M4.22 4.22l1.42 1.42"></path>
+                           <path d="M18.36 18.36l1.42 1.42"></path>
+                           <path d="M1 12h2"></path>
+                           <path d="M21 12h2"></path>
+                           <path d="M4.22 19.78l1.42-1.42"></path>
+                           <path d="M18.36 5.64l1.42-1.42"></path>
+                       </svg>
+                       <span id="greeting-text">Good afternoon, Nate!</span>
+                   </div>
+                   
+                   <div class="quick-links">
+                       <div class="quick-link-title">Quick Access</div>
+                       <div class="quick-links-grid">
+                           <a href="https://www.google.com" target="_blank" class="quick-link-item">
+                               <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google">
+                               <span>Google</span>
+                           </a>
+                           <a href="https://www.youtube.com" target="_blank" class="quick-link-item">
+                               <img src="https://www.youtube.com/s/desktop/e4d15d2c/img/favicon_144x144.png" alt="YouTube">
+                               <span>YouTube</span>
+                           </a>
+                           <a href="https://discord.com" target="_blank" class="quick-link-item">
+                               <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/discord-logo-icon-editorial-free-vector.jpg-xOoha2g2FQHEmGEFfvkdwDmSz9hzVn.jpeg" alt="Discord">
+                               <span>Discord</span>
+                           </a>
+                           <a href="https://www.crazygames.com" target="_blank" class="quick-link-item">
+                               <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Crazygames_jpg_logo.jpg-Wk30xY3Z7Z2K0ZmMYHRC7VhCZqDptd.jpeg" alt="Crazy Games">
+                               <span>Games</span>
+                           </a>
+                       </div>
+                   </div>
+               </div>
+           </section>
 
-            <!-- Games Page -->
-            <section id="games-page" class="page">
-                <h1>Games</h1>
-                <div class="search-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                    <input type="text" id="games-search" placeholder="Search games...">
-                </div>
-                <div class="games-grid" id="games-grid">
-                    <!-- Games will be dynamically added here -->
-                </div>
-            </section>
+           <section id="games-page" class="page">
+               <div class="page-header">
+                   <h1>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                           <polyline points="17 2 12 7 7 2"></polyline>
+                       </svg>
+                       Games
+                   </h1>
+                   <div class="search-container">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="11" cy="11" r="8"></circle>
+                           <path d="m21 21-4.3-4.3"></path>
+                       </svg>
+                       <input type="text" id="games-search" placeholder="Search games...">
+                   </div>
+               </div>
+               
+               <div class="category-tabs">
+                   <button class="category-tab active" data-category="all">All Games</button>
+                   <button class="category-tab" data-category="popular">Popular</button>
+                   <button class="category-tab" data-category="action">Action</button>
+                   <button class="category-tab" data-category="puzzle">Puzzle</button>
+                   <button class="category-tab" data-category="multiplayer">Multiplayer</button>
+               </div>
+               
+               <div class="games-grid" id="games-grid">
+               </div>
+           </section>
 
-            <!-- Apps Page -->
-            <section id="apps-page" class="page">
-                <h1>Apps</h1>
-                <div class="search-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                    <input type="text" id="apps-search" placeholder="Search apps...">
-                </div>
-                <div class="apps-grid" id="apps-grid">
-                    <!-- Apps will be dynamically added here -->
-                </div>
-            </section>
+           <section id="apps-page" class="page">
+               <div class="page-header">
+                   <h1>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="3" y="3" width="7" height="7"></rect>
+                           <rect x="14" y="3" width="7" height="7"></rect>
+                           <rect x="14" y="14" width="7" height="7"></rect>
+                           <rect x="3" y="14" width="7" height="7"></rect>
+                       </svg>
+                       Apps
+                   </h1>
+                   <div class="search-container">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="11" cy="11" r="8"></circle>
+                           <path d="m21 21-4.3-4.3"></path>
+                       </svg>
+                       <input type="text" id="apps-search" placeholder="Search apps...">
+                   </div>
+               </div>
+               <div class="apps-grid" id="apps-grid">
+               </div>
+           </section>
 
-            <!-- Movies Page -->
-            <section id="movies-page" class="page">
-                <h1>Movies</h1>
-                <div class="search-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                    <input type="text" id="movies-search" placeholder="Search movies...">
-                </div>
-                <div class="movies-grid">
-                    <p>Movies coming soon...</p>
-                </div>
-            </section>
+           <section id="movies-page" class="page">
+               <div class="page-header">
+                   <h1>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                           <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                       </svg>
+                       Movies
+                   </h1>
+                   <div class="search-container">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="11" cy="11" r="8"></circle>
+                           <path d="m21 21-4.3-4.3"></path>
+                       </svg>
+                       <input type="text" id="movies-search" placeholder="Search movies...">
+                   </div>
+               </div>
+               <div class="movies-grid">
+                   <div class="coming-soon">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="10"></circle>
+                           <polyline points="12 6 12 12 16 14"></polyline>
+                       </svg>
+                       <p>Movies coming soon...</p>
+                       <span>We're working on bringing you the best movie experience!</span>
+                   </div>
+               </div>
+           </section>
 
-            <!-- AI Page -->
-            <section id="ai-page" class="page">
-                <h1>AI</h1>
-                <div class="ai-model-selector">
-                    <select id="ai-model">
-                        <option value="gpt">GPT Assistant</option>
-                        <option value="math">Math Solver</option>
-                        <option value="code">Code Helper</option>
-                    </select>
-                </div>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chat-messages">
-                        <!-- Chat messages will be added here -->
-                    </div>
-                    <div class="chat-input-container">
-                        <input type="text" id="chat-input" placeholder="What would you like to talk about?">
-                        <button id="send-message">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m12 19 9 2-9-18-9 18 9-2Z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </section>
-        </main>
+           <section id="ai-page" class="page">
+               <div class="page-header">
+                   <h1>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M12 2a8 8 0 0 0-8 8c0 5.2 3.4 8.2 8 14 4.6-5.8 8-8.8 8-14a8 8 0 0 0-8-8Z"></path>
+                           <path d="M12 6v4"></path>
+                           <path d="M12 14h.01"></path>
+                       </svg>
+                       AI Assistant
+                   </h1>
+                   <div class="ai-model-selector">
+                       <select id="ai-model">
+                           <option value="gpt">GPT Assistant</option>
+                           <option value="math">Math Solver</option>
+                           <option value="code">Code Helper</option>
+                       </select>
+                   </div>
+               </div>
+               <div class="chat-container">
+                   <div class="chat-messages" id="chat-messages">
+                   </div>
+                   <div class="chat-input-container">
+                       <input type="text" id="chat-input" placeholder="What would you like to talk about?">
+                       <button id="send-message">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="m12 19 9 2-9-18-9 18 9-2Z"></path>
+                           </svg>
+                       </button>
+                   </div>
+               </div>
+           </section>
+       </main>
 
-        <!-- Settings Modal -->
-        <div id="settings-modal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Settings</h2>
-                    <button id="close-settings" class="close-btn">×</button>
-                </div>
-                <div class="modal-tabs">
-                    <button class="tab-btn active" data-tab="proxy">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                            <line x1="2" x2="22" y1="10" y2="10"></line>
-                        </svg>
-                        Proxy
-                    </button>
-                    <button class="tab-btn" data-tab="cloak">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                            <line x1="12" x2="12.01" y1="17" y2="17"></line>
-                        </svg>
-                        Cloak
-                    </button>
-                    <button class="tab-btn" data-tab="appearance">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 2a7 7 0 1 0 0 14 7 7 0 1 0 0-14z"></path>
-                        </svg>
-                        Appearance
-                    </button>
-                    <button class="tab-btn" data-tab="info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 16v-4"></path>
-                            <path d="M12 8h.01"></path>
-                        </svg>
-                        Info
-                    </button>
-                </div>
-                <div class="tab-content">
-                    <!-- Proxy Tab -->
-                    <div class="tab-pane active" id="proxy-tab">
-                        <div class="setting-group">
-                            <h3>Proxy</h3>
-                            <p>Lucid uses Ultraviolet for web browsing.</p>
-                            <select id="transport-select">
-                                <option value="ultraviolet">Ultraviolet</option>
-                            </select>
-                        </div>
-                        <div class="setting-group">
-                            <h3>Wisp Server</h3>
-                            <p>Enter a different Wisp Server to connect to.<br>Recommended to keep this as default.</p>
-                            <div class="input-with-button">
-                                <input type="text" id="wisp-server" value="wss://rikoisacutepuppy.eduinnova.cl">
-                                <button class="btn-primary" id="save-wisp">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Cloak Tab -->
-                    <div class="tab-pane" id="cloak-tab">
-                        <div class="setting-group">
-                            <h3>About:Blank</h3>
-                            <p>Turn this on to go into about:blank every time the page loads (Recommended).</p>
-                            <label class="toggle">
-                                <input type="checkbox" id="about-blank-toggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- Appearance Tab -->
-                    <div class="tab-pane" id="appearance-tab">
-                        <div class="setting-group">
-                            <h3>Navigation Bar</h3>
-                            <p>Keep this on for the navigation bar when searching (Recommended).</p>
-                            <label class="toggle">
-                                <input type="checkbox" id="nav-bar-toggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-group">
-                            <h3>Theme</h3>
-                            <p>Choose a theme for Lucid.</p>
-                            <div class="theme-selector">
-                                <button class="theme-btn active" data-theme="default">
-                                    <div class="theme-preview default-theme"></div>
-                                    <span>Default</span>
-                                </button>
-                                <button class="theme-btn" data-theme="midnight">
-                                    <div class="theme-preview midnight-theme"></div>
-                                    <span>Midnight</span>
-                                </button>
-                                <button class="theme-btn" data-theme="ocean">
-                                    <div class="theme-preview ocean-theme"></div>
-                                    <span>Ocean</span>
-                                </button>
-                                <button class="theme-btn" data-theme="forest">
-                                    <div class="theme-preview forest-theme"></div>
-                                    <span>Forest</span>
-                                </button>
-                                <button class="theme-btn" data-theme="sunset">
-                                    <div class="theme-preview sunset-theme"></div>
-                                    <span>Sunset</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Info Tab -->
-                    <div class="tab-pane" id="info-tab">
-                        <div class="setting-group">
-                            <h3>Version 2.3.0</h3>
-                            <p>Server Status: <span class="status-running">Running</span></p>
-                            <p>If you want to see Lucid status please visit<br>https://uptime.macha.edu</p>
-                            <div class="info-links">
-                                <a href="#" class="info-link">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="info-link">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-                                        <path d="M9 18c-4.51 2-5-2-7-2"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+       <div id="settings-modal" class="modal hidden">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h2>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="3"></circle>
+                           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                       </svg>
+                       Settings
+                   </h2>
+                   <button id="close-settings" class="close-btn">×</button>
+               </div>
+               <div class="modal-tabs">
+                   <button class="tab-btn active" data-tab="proxy">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                           <line x1="2" x2="22" y1="10" y2="10"></line>
+                       </svg>
+                       Proxy
+                   </button>
+                   <button class="tab-btn" data-tab="cloak">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
+                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                           <line x1="12" x2="12.01" y1="17" y2="17"></line>
+                       </svg>
+                       Cloak
+                   </button>
+                   <button class="tab-btn" data-tab="appearance">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="10"></circle>
+                           <path d="M12 2a7 7 0 1 0 0 14 7 7 0 1 0 0-14z"></path>
+                       </svg>
+                       Appearance
+                   </button>
+                   <button class="tab-btn" data-tab="info">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="10"></circle>
+                           <path d="M12 16v-4"></path>
+                           <path d="M12 8h.01"></path>
+                       </svg>
+                       Info
+                   </button>
+               </div>
+               <div class="tab-content">
+                   <div class="tab-pane active" id="proxy-tab">
+   <div class="setting-group">
+       <h3>Proxy</h3>
+       <p>Lucid uses Ultraviolet for web browsing.</p>
+       <select id="transport-select">
+           <option value="ultraviolet">Ultraviolet</option>
+       </select>
+   </div>
+</div>
+                   
+                   <div class="tab-pane" id="cloak-tab">
+                       <div class="setting-group">
+                           <h3>About:Blank</h3>
+                           <p>Turn this on to go into about:blank every time the page loads (Recommended).</p>
+                           <label class="toggle">
+                               <input type="checkbox" id="about-blank-toggle">
+                               <span class="toggle-slider"></span>
+                           </label>
+                       </div>
+                       <div class="setting-group">
+                           <h3>Tab Cloaking</h3>
+                           <p>Choose how you want Lucid to appear in your browser tab.</p>
+                           <select id="tab-cloak-select">
+                               <option value="default">Default (Lucid)</option>
+                               <option value="google">Google</option>
+                               <option value="drive">Google Drive</option>
+                               <option value="classroom">Google Classroom</option>
+                               <option value="canvas">Canvas</option>
+                               <option value="zoom">Zoom</option>
+                           </select>
+                       </div>
+                   </div>
+                   
+                   <div class="tab-pane" id="appearance-tab">
+                       <div class="setting-group">
+                           <h3>Navigation Bar</h3>
+                           <p>Keep this on for the navigation bar when searching (Recommended).</p>
+                           <label class="toggle">
+                               <input type="checkbox" id="nav-bar-toggle" checked>
+                               <span class="toggle-slider"></span>
+                           </label>
+                       </div>
+                       <div class="setting-group">
+                           <h3>Theme</h3>
+                           <p>Choose a theme for Lucid.</p>
+                           <div class="theme-selector">
+                               <button class="theme-btn active" data-theme="default">
+                                   <div class="theme-preview default-theme"></div>
+                                   <span>Default</span>
+                               </button>
+                               <button class="theme-btn" data-theme="midnight">
+                                   <div class="theme-preview midnight-theme"></div>
+                                   <span>Midnight</span>
+                               </button>
+                               <button class="theme-btn" data-theme="ocean">
+                                   <div class="theme-preview ocean-theme"></div>
+                                   <span>Ocean</span>
+                               </button>
+                               <button class="theme-btn" data-theme="forest">
+                                   <div class="theme-preview forest-theme"></div>
+                                   <span>Forest</span>
+                               </button>
+                               <button class="theme-btn" data-theme="sunset">
+                                   <div class="theme-preview sunset-theme"></div>
+                                   <span>Sunset</span>
+                               </button>
+                               <button class="theme-btn" data-theme="dragon">
+                                   <div class="theme-preview dragon-theme"></div>
+                                   <span>Dragon</span>
+                               </button>
+                               <button class="theme-btn" data-theme="cosmic">
+                                   <div class="theme-preview cosmic-theme"></div>
+                                   <span>Cosmic</span>
+                               </button>
+                               <button class="theme-btn" data-theme="enchanted">
+                                   <div class="theme-preview enchanted-theme"></div>
+                                   <span>Enchanted</span>
+                               </button>
+                               <button class="theme-btn" data-theme="phoenix">
+                                   <div class="theme-preview phoenix-theme"></div>
+                                   <span>Phoenix</span>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+                   
+                   <div class="tab-pane" id="info-tab">
+   <div class="setting-group">
+       <h3>Join our Discord!</h3>
+       <p>Connect with our community: <a href="https://discord.gg/XUKc3ceXUA" target="_blank" class="discord-link">https://discord.gg/XUKc3ceXUA</a></p>
+       <div class="discord-banner">
+           <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/discord-logo-icon-editorial-free-vector.jpg-xOoha2g2FQHEmGEFfvkdwDmSz9hzVn.jpeg" alt="Discord" class="discord-logo">
+           <span>Join Now</span>
+       </div>
+   </div>
+</div>
+               </div>
+           </div>
+       </div>
+   </div>
 
-    <script src="script.js"></script>
+   <script src="script.js"></script>
 </body>
 </html>
 
