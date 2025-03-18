@@ -690,50 +690,7 @@ This creates a centered box with a blue background and white text.`)
 
   function loadGames() {
     const games = [
-      {
-        name: "Poly Track",
-        icon: "https://img.crazygames.com/polytrack.png",
-        url: "https://www.crazygames.com/game/polytrack",
-      },
-      {
-        name: "10 Minutes Till Dawn",
-        icon: "https://img.crazygames.com/10-minutes-till-dawn.png",
-        url: "https://www.crazygames.com/game/10-minutes-till-dawn",
-      },
-      {
-        name: "Geometry Dash",
-        icon: "https://img.crazygames.com/geometry-dash-online.png",
-        url: "https://www.crazygames.com/game/geometry-dash-online",
-      },
-      { name: "Slope", icon: "https://img.crazygames.com/slope.png", url: "https://www.crazygames.com/game/slope" },
-      {
-        name: "Drive Mad",
-        icon: "https://img.crazygames.com/drive-mad.png",
-        url: "https://www.crazygames.com/game/drive-mad",
-      },
-      { name: "1v1.LOL", icon: "https://1v1.lol/splash.png", url: "https://1v1.lol" },
-      {
-        name: "Papa Scooperia",
-        icon: "https://img.crazygames.com/papas-scooperia.png",
-        url: "https://www.coolmathgames.com/0-papas-scooperia",
-      },
-      {
-        name: "Chess",
-        icon: "https://www.chess.com/bundles/web/images/logo_chess.png",
-        url: "https://www.chess.com/play/online",
-      },
-      { name: "Bonk.io", icon: "https://bonk.io/favicon.ico", url: "https://bonk.io" },
-      { name: "Basket Bros", icon: "https://basketbros.io/img/splash.png", url: "https://basketbros.io" },
-      { name: "Bloxd.io", icon: "https://bloxd.io/favicon.ico", url: "https://bloxd.io" },
-      {
-        name: "Bullet Force",
-        icon: "https://img.crazygames.com/bullet-force-multiplayer.png",
-        url: "https://www.crazygames.com/game/bullet-force-multiplayer",
-      },
-      { name: "Smash Karts", icon: "https://smashkarts.io/favicon.ico", url: "https://smashkarts.io" },
-      { name: "Shell Shockers", icon: "https://shellshock.io/favicon.ico", url: "https://shellshock.io" },
-      { name: "EvoWars.io", icon: "https://evowars.io/favicon.ico", url: "https://evowars.io" },
-      { name: "Krunker.io", icon: "https://krunker.io/img/favicon.ico", url: "https://krunker.io" },
+      { name: "Drive Mad", icon: "https://cdn.statically.io/gh/IdkICEUNBLCOKERRR/lucid-unblocker/main/drive-mad/logo.jpg", url: "drive-mad/index.html" },
     ]
 
     games.forEach((game) => {
