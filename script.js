@@ -690,7 +690,11 @@ This creates a centered box with a blue background and white text.`)
 
   function loadGames() {
     const games = [
-      { name: "Drive Mad", icon: "https://cdn.statically.io/gh/IdkICEUNBLCOKERRR/lucid-unblocker/main/drive-mad/logo.jpg", url: "drive-mad/index.html" },
+      { 
+       name: "Drive Mad",
+       icon: "https://cdn.statically.io/gh/IdkICEUNBLCOKERRR/lucid-unblocker/main/drive-mad/logo.jpg",
+       url: "drive-mad/index.html"
+      }
     ]
 
     games.forEach((game) => {
