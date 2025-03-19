@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Lucid</title>
+   <title>Luminous</title>
    <link rel="stylesheet" href="styles.css">
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -47,79 +47,18 @@
                <path d="M12 8v4"></path>
                <path d="M12 16h.01"></path>
            </svg>
-           <span id="welcome-message">Hey, welcome back to Lucid!</span>
+           <span id="welcome-message">Hey, welcome back to Luminous!</span>
        </div>
        <button id="close-welcome" class="close-btn">×</button>
    </div>
 
    <div id="app-container" class="hidden">
-       <nav class="navbar">
-           <div class="navbar-container">
-               <div class="navbar-left">
-                   <a href="#" class="logo" data-page="home">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                       </svg>
-                       <span>Lucid</span>
-                   </a>
-                   <div class="nav-links">
-                       <a href="#" class="nav-link active" data-page="home">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                               <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                           </svg>
-                           Home
-                       </a>
-                       <a href="#" class="nav-link" data-page="games">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                               <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-                               <polyline points="17 2 12 7 7 2"></polyline>
-                           </svg>
-                           Games
-                       </a>
-                       <a href="#" class="nav-link" data-page="apps">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                               <rect x="3" y="3" width="7" height="7"></rect>
-                               <rect x="14" y="3" width="7" height="7"></rect>
-                               <rect x="14" y="14" width="7" height="7"></rect>
-                               <rect x="3" y="14" width="7" height="7"></rect>
-                           </svg>
-                           Apps
-                       </a>
-                       <a href="#" class="nav-link" data-page="movies">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                               <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                               <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                           </svg>
-                           Movies
-                       </a>
-                       <a href="#" class="nav-link" data-page="ai">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                               <path d="M12 2a8 8 0 0 0-8 8c0 5.2 3.4 8.2 8 14 4.6-5.8 8-8.8 8-14a8 8 0 0 0-8-8Z"></path>
-                               <path d="M12 6v4"></path>
-                               <path d="M12 14h.01"></path>
-                           </svg>
-                           AI
-                       </a>
-                   </div>
-               </div>
-               <div class="navbar-right">
-                   <button id="settings-btn" class="settings-btn">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                           <circle cx="12" cy="12" r="3"></circle>
-                           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                       </svg>
-                   </button>
-               </div>
-           </div>
-       </nav>
-
        <main>
            <section id="home-page" class="page active">
                <div class="home-content">
                    <div class="logo-animation">
                        <div class="logo-circle"></div>
-                       <h1 class="site-title">Lucid<span class="title-dot">.</span></h1>
+                       <h1 class="site-title">Luminous<span class="title-dot">.</span></h1>
                    </div>
                    <form id="search-form">
                        <div class="search-container">
@@ -158,7 +97,7 @@
                            <path d="M4.22 19.78l1.42-1.42"></path>
                            <path d="M18.36 5.64l1.42-1.42"></path>
                        </svg>
-                       <span id="greeting-text">Good afternoon, Nate!</span>
+                       <span id="greeting-text">Hello, Nate!</span>
                    </div>
                    
                    <div class="quick-links">
@@ -212,10 +151,6 @@
                </div>
                
                <div class="games-grid" id="games-grid">
-                  <a href="games/drive-mad/index.html">Drive Mad</a>
-                  <a href="games/bitlife/index.html">Bitlife</a>
-                  <a href="games/core-ball/index.html">Core Ball</a>
-                  <a href="games/monkeymart/index.html">MonkeyMart</a>
                </div>
            </section>
 
@@ -302,7 +237,106 @@
                    </div>
                </div>
            </section>
+
+           <section id="suggestions-page" class="page">
+               <div class="page-header">
+                   <h1>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                       </svg>
+                       Suggestions
+                   </h1>
+               </div>
+               <div class="suggestions-container">
+                   <div class="suggestion-form">
+                       <h2>Submit Your Suggestion</h2>
+                       <p>Help us improve Luminous by sharing your ideas!</p>
+                       <div class="input-group">
+                           <label for="suggestion-name">Your Name</label>
+                           <input type="text" id="suggestion-name" placeholder="Enter your name">
+                       </div>
+                       <div class="input-group">
+                           <label for="suggestion-email">Your Email (optional)</label>
+                           <input type="email" id="suggestion-email" placeholder="Enter your email">
+                       </div>
+                       <div class="input-group">
+                           <label for="suggestion-type">Suggestion Type</label>
+                           <select id="suggestion-type">
+                               <option value="feature">New Feature</option>
+                               <option value="improvement">Improvement</option>
+                               <option value="bug">Bug Report</option>
+                               <option value="other">Other</option>
+                           </select>
+                       </div>
+                       <div class="input-group">
+                           <label for="suggestion-content">Your Suggestion</label>
+                           <textarea id="suggestion-content" placeholder="Describe your suggestion in detail..."></textarea>
+                       </div>
+                       <button id="submit-suggestion" class="btn-primary">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="m12 19 9 2-9-18-9 18 9-2Z"></path>
+                           </svg>
+                           Submit Suggestion
+                       </button>
+                   </div>
+                   <div class="suggestions-list">
+                       <h2>Recent Suggestions</h2>
+                       <div id="suggestions-feed">
+                           <!-- Suggestions will be added here dynamically -->
+                       </div>
+                   </div>
+               </div>
+           </section>
        </main>
+
+       <nav class="bottom-navbar">
+           <div class="navbar-container">
+               <a href="#" class="nav-link active" data-page="home">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                       <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                   </svg>
+                   <span>Home</span>
+               </a>
+               <a href="#" class="nav-link" data-page="games">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                       <polyline points="17 2 12 7 7 2"></polyline>
+                   </svg>
+                   <span>Games</span>
+               </a>
+               <a href="#" class="nav-link" data-page="apps">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <rect x="3" y="3" width="7" height="7"></rect>
+                       <rect x="14" y="3" width="7" height="7"></rect>
+                       <rect x="14" y="14" width="7" height="7"></rect>
+                       <rect x="3" y="14" width="7" height="7"></rect>
+                   </svg>
+                   <span>Apps</span>
+               </a>
+               <a href="#" class="nav-link" data-page="ai">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <path d="M12 2a8 8 0 0 0-8 8c0 5.2 3.4 8.2 8 14 4.6-5.8 8-8.8 8-14a8 8 0 0 0-8-8Z"></path>
+                       <path d="M12 6v4"></path>
+                       <path d="M12 14h.01"></path>
+                   </svg>
+                   <span>AI</span>
+               </a>
+               <a href="#" class="nav-link" data-page="suggestions">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                   </svg>
+                   <span>Suggest</span>
+               </a>
+               <button id="settings-btn" class="settings-btn">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <circle cx="12" cy="12" r="3"></circle>
+                       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                   </svg>
+                   <span>Settings</span>
+               </button>
+           </div>
+       </nav>
 
        <div id="settings-modal" class="modal hidden">
            <div class="modal-content">
@@ -318,7 +352,7 @@
                </div>
                <div class="modal-tabs">
                    <button class="tab-btn active" data-tab="proxy">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                            <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                            <line x1="2" x2="22" y1="10" y2="10"></line>
                        </svg>
@@ -352,7 +386,7 @@
                    <div class="tab-pane active" id="proxy-tab">
    <div class="setting-group">
        <h3>Proxy</h3>
-       <p>Lucid uses Ultraviolet for web browsing.</p>
+       <p>Luminous uses Ultraviolet for web browsing.</p>
        <select id="transport-select">
            <option value="ultraviolet">Ultraviolet</option>
        </select>
@@ -370,15 +404,27 @@
                        </div>
                        <div class="setting-group">
                            <h3>Tab Cloaking</h3>
-                           <p>Choose how you want Lucid to appear in your browser tab.</p>
+                           <p>Choose how you want Luminous to appear in your browser tab.</p>
                            <select id="tab-cloak-select">
-                               <option value="default">Default (Lucid)</option>
+                               <option value="default">Default (Luminous)</option>
                                <option value="google">Google</option>
                                <option value="drive">Google Drive</option>
                                <option value="classroom">Google Classroom</option>
                                <option value="canvas">Canvas</option>
                                <option value="zoom">Zoom</option>
                            </select>
+                       </div>
+                       <div class="setting-group">
+                           <h3>Launch About:Blank</h3>
+                           <p>Click the button below to open Luminous in about:blank.</p>
+                           <button id="launch-about-blank" class="btn-primary">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                   <polyline points="15 3 21 3 21 9"></polyline>
+                                   <line x1="10" y1="14" x2="21" y2="3"></line>
+                               </svg>
+                               Launch in About:Blank
+                           </button>
                        </div>
                    </div>
                    
@@ -393,7 +439,7 @@
                        </div>
                        <div class="setting-group">
                            <h3>Theme</h3>
-                           <p>Choose a theme for Lucid.</p>
+                           <p>Choose a theme for Luminous.</p>
                            <div class="theme-selector">
                                <button class="theme-btn active" data-theme="default">
                                    <div class="theme-preview default-theme"></div>
@@ -430,6 +476,50 @@
                                <button class="theme-btn" data-theme="phoenix">
                                    <div class="theme-preview phoenix-theme"></div>
                                    <span>Phoenix</span>
+                               </button>
+                               <button class="theme-btn" data-theme="neon-blue">
+                                   <div class="theme-preview neon-blue-theme"></div>
+                                   <span>Neon Blue</span>
+                               </button>
+                               <button class="theme-btn" data-theme="neon-purple">
+                                   <div class="theme-preview neon-purple-theme"></div>
+                                   <span>Neon Purple</span>
+                               </button>
+                               <button class="theme-btn" data-theme="neon-green">
+                                   <div class="theme-preview neon-green-theme"></div>
+                                   <span>Neon Green</span>
+                               </button>
+                               <button class="theme-btn" data-theme="cyberpunk">
+                                   <div class="theme-preview cyberpunk-theme"></div>
+                                   <span>Cyberpunk</span>
+                               </button>
+                               <button class="theme-btn" data-theme="retro-wave">
+                                   <div class="theme-preview retro-wave-theme"></div>
+                                   <span>Retro Wave</span>
+                               </button>
+                               <button class="theme-btn" data-theme="matrix">
+                                   <div class="theme-preview matrix-theme"></div>
+                                   <span>Matrix</span>
+                               </button>
+                               <button class="theme-btn" data-theme="aurora">
+                                   <div class="theme-preview aurora-theme"></div>
+                                   <span>Aurora</span>
+                               </button>
+                               <button class="theme-btn" data-theme="volcano">
+                                   <div class="theme-preview volcano-theme"></div>
+                                   <span>Volcano</span>
+                               </button>
+                               <button class="theme-btn" data-theme="arctic">
+                                   <div class="theme-preview arctic-theme"></div>
+                                   <span>Arctic</span>
+                               </button>
+                               <button class="theme-btn" data-theme="nebula">
+                                   <div class="theme-preview nebula-theme"></div>
+                                   <span>Nebula</span>
+                               </button>
+                               <button class="theme-btn" data-theme="toxic">
+                                   <div class="theme-preview toxic-theme"></div>
+                                   <span>Toxic</span>
                                </button>
                            </div>
                        </div>
