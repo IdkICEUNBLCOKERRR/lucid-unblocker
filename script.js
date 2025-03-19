@@ -30,6 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.getElementById("search-form")
   const searchInput = document.getElementById("search-input")
   const aiModel = document.getElementById("ai-model")
+  const launchAboutBlank = document.getElementById("launch-about-blank")
+  const timeDisplay = document.getElementById("time-display")
+  const batteryDisplay = document.getElementById("battery-display")
+  const submitSuggestion = document.getElementById("submit-suggestion")
+  const suggestionName = document.getElementById("suggestion-name")
+  const suggestionEmail = document.getElementById("suggestion-email")
+  const suggestionType = document.getElementById("suggestion-type")
+  const suggestionContent = document.getElementById("suggestion-content")
+  const suggestionsFeed = document.getElementById("suggestions-feed")
 
   let userName = localStorage.getItem("userName") || ""
   let currentPage = "home"
@@ -42,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateActiveThemeButton()
 
     loadSettings()
+    loadSavedSuggestions() // Add this line to load saved suggestions
 
     applyTabCloak()
 
@@ -65,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateTime()
     updateBattery()
-    setInterval(updateTime, 60000)
+    setInterval(updateTime, 1000) // Make sure this runs every second
 
     loadApps()
     loadGames()
@@ -78,6 +88,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (discordBanner) {
       discordBanner.addEventListener("click", () => {
         window.open("https://discord.gg/XUKc3ceXUA", "_blank")
+      })
+    }
+
+    if (launchAboutBlank) {
+      launchAboutBlank.addEventListener("click", () => {
+        openInAboutBlank()
+      })
+    }
+
+    if (submitSuggestion) {
+      submitSuggestion.addEventListener("click", (e) => {
+        e.preventDefault()
+        submitUserSuggestion()
       })
     }
   }
@@ -129,54 +152,64 @@ document.addEventListener("DOMContentLoaded", () => {
     const popup = window.open("about:blank", "_blank")
     if (popup) {
       popup.document.write(`
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <title>Google</title>
-                        <link rel="icon" href="https://www.google.com/favicon.ico">
-                    </head>
-                    <body style="margin:0;padding:0;height:100vh;overflow:hidden;">
-                        <iframe src="${window.location.href}" style="border:none;width:100%;height:100vh;"></iframe>
-                    </body>
-                </html>
-            `)
+               <!DOCTYPE html>
+               <html>
+                   <head>
+                       <title>Google</title>
+                       <link rel="icon" href="https://www.google.com/favicon.ico">
+                   </head>
+                   <body style="margin:0;padding:0;height:100vh;overflow:hidden;">
+                       <iframe src="${window.location.href}" style="border:none;width:100%;height:100vh;"></iframe>
+                   </body>
+               </html>
+           `)
       popup.document.close()
-      window.location.replace("https://www.google.com")
     }
   }
 
+  // Fix the time function to ensure it works properly
   function updateTime() {
     const now = new Date()
     let hours = now.getHours()
-    let minutes = now.getMinutes()
+    const minutes = now.getMinutes().toString().padStart(2, "0")
     const ampm = hours >= 12 ? "PM" : "AM"
 
     hours = hours % 12
-    hours = hours ? hours : 12
-    minutes = minutes < 10 ? "0" + minutes : minutes
+    hours = hours ? hours : 12 // Convert 0 to 12 for 12 AM
 
     const timeString = `${hours}:${minutes} ${ampm}`
-    document.getElementById("time-display").textContent = timeString
+
+    if (timeDisplay) {
+      timeDisplay.textContent = timeString
+      // Log to console for debugging
+      console.log("Updated time:", timeString)
+    }
   }
 
   function updateBattery() {
     if ("getBattery" in navigator) {
       navigator.getBattery().then((battery) => {
         const level = Math.floor(battery.level * 100)
-        document.getElementById("battery-display").textContent = `${level}%`
+        if (batteryDisplay) {
+          batteryDisplay.textContent = `${level}%`
+        }
 
         battery.addEventListener("levelchange", () => {
           const updatedLevel = Math.floor(battery.level * 100)
-          document.getElementById("battery-display").textContent = `${updatedLevel}%`
+          if (batteryDisplay) {
+            batteryDisplay.textContent = `${updatedLevel}%`
+          }
         })
       })
     } else {
-      document.getElementById("battery-display").textContent = "N/A"
+      if (batteryDisplay) {
+        batteryDisplay.textContent = "N/A"
+      }
     }
   }
 
   function showWelcomeNotification() {
-    welcomeMessage.textContent = `Hey, ${userName} welcome back to Lucid!`
+    welcomeMessage.textContent = `Hey, ${userName} welcome back to Luminous!`
     welcomeNotification.classList.remove("hidden")
 
     setTimeout(() => {
@@ -333,19 +366,9 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   function updateGreeting() {
-    const hour = new Date().getHours()
-    let greeting = "Good "
-
-    if (hour < 12) {
-      greeting += "morning"
-    } else if (hour < 18) {
-      greeting += "afternoon"
-    } else {
-      greeting += "evening"
+    if (greetingText) {
+      greetingText.textContent = `Hello, ${userName}!`
     }
-
-    greeting += ", " + userName + "!"
-    greetingText.textContent = greeting
   }
 
   function changePage(page) {
@@ -424,11 +447,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const avatarDiv = document.createElement("div")
     avatarDiv.className = "message-avatar"
     avatarDiv.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-        `
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+               <circle cx="12" cy="7" r="4"></circle>
+           </svg>
+       `
 
     const contentDiv = document.createElement("div")
     contentDiv.className = "message-content"
@@ -448,11 +471,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const avatarDiv = document.createElement("div")
     avatarDiv.className = "message-avatar"
     avatarDiv.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-        `
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+           </svg>
+       `
 
     const contentDiv = document.createElement("div")
     contentDiv.className = "message-content"
@@ -463,6 +486,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatMessages.appendChild(messageDiv)
     chatMessages.scrollTop = chatMessages.scrollHeight
+  }
+
+  // Improve the suggestion submission function to add to the recent suggestions
+  function submitUserSuggestion() {
+    const name = suggestionName.value.trim()
+    const email = suggestionEmail.value.trim()
+    const type = suggestionType.value
+    const content = suggestionContent.value.trim()
+
+    if (!name || !content) {
+      alert("Please enter your name and suggestion content.")
+      return
+    }
+
+    // Create suggestion object
+    const suggestion = {
+      name,
+      email,
+      type,
+      content,
+      date: "Just now",
+    }
+
+    // Log to console
+    console.log("New Suggestion:", suggestion)
+
+    // Create a new suggestion card
+    const suggestionCard = document.createElement("div")
+    suggestionCard.className = "suggestion-card"
+
+    const typeClass =
+      type === "feature" ? "feature" : type === "improvement" ? "improvement" : type === "bug" ? "bug" : "other"
+
+    const typeLabel = type.charAt(0).toUpperCase() + type.slice(1)
+
+    suggestionCard.innerHTML = `
+      <div class="suggestion-header">
+        <span class="suggestion-author">${name}</span>
+        <span class="suggestion-type ${typeClass}">${typeLabel}</span>
+      </div>
+      <div class="suggestion-body">
+        ${content}
+      </div>
+      <div class="suggestion-footer">
+        <span class="suggestion-date">Just now</span>
+      </div>
+    `
+
+    // Add the new suggestion to the top of the feed
+    const suggestionsFeed = document.getElementById("suggestions-feed")
+    if (suggestionsFeed) {
+      // Insert at the beginning
+      if (suggestionsFeed.firstChild) {
+        suggestionsFeed.insertBefore(suggestionCard, suggestionsFeed.firstChild)
+      } else {
+        suggestionsFeed.appendChild(suggestionCard)
+      }
+    }
+
+    // Clear the form
+    suggestionName.value = ""
+    suggestionEmail.value = ""
+    suggestionContent.value = ""
+
+    alert("Thank you for your suggestion!")
+  }
+
+  // Function to load saved suggestions from localStorage
+  function loadSavedSuggestions() {
+    const suggestionsFeed = document.getElementById("suggestions-feed")
+    if (!suggestionsFeed) return
+
+    // Clear existing suggestions
+    suggestionsFeed.innerHTML = ""
+
+    // Load from localStorage
+    const suggestions = JSON.parse(localStorage.getItem("suggestions") || "[]")
+
+    suggestions.forEach((suggestion) => {
+      const suggestionCard = document.createElement("div")
+      suggestionCard.className = "suggestion-card"
+
+      const typeClass =
+        suggestion.type === "feature"
+          ? "feature"
+          : suggestion.type === "improvement"
+            ? "improvement"
+            : suggestion.type === "bug"
+              ? "bug"
+              : "other"
+
+      const typeLabel = suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)
+
+      suggestionCard.innerHTML = `
+        <div class="suggestion-header">
+          <span class="suggestion-author">${suggestion.name}</span>
+          <span class="suggestion-type ${typeClass}">${typeLabel}</span>
+        </div>
+        <div class="suggestion-body">
+          ${suggestion.content}
+        </div>
+        <div class="suggestion-footer">
+          <span class="suggestion-date">${suggestion.date}</span>
+        </div>
+      `
+
+      suggestionsFeed.appendChild(suggestionCard)
+    })
   }
 
   async function getAIResponse(query, model) {
@@ -507,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 \`\`\`javascript
 function calculateArea(width, height) {
-  return width * height;
+ return width * height;
 }
 
 // Example usage
@@ -525,14 +656,14 @@ You can modify this function to suit your specific needs.`)
 \`\`\`javascript
 // For loop
 for (let i = 0; i < 5; i++) {
-  console.log(i);
+ console.log(i);
 }
 
 // While loop
 let j = 0;
 while (j < 5) {
-  console.log(j);
-  j++;
+ console.log(j);
+ j++;
 }
 
 // ForEach for arrays
@@ -552,30 +683,30 @@ These are the most common ways to create loops in JavaScript.`)
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
-    .box {
-      padding: 20px;
-      background-color: #3498db;
-      color: white;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-  </style>
+ <style>
+   .container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     background-color: #f0f0f0;
+   }
+   .box {
+     padding: 20px;
+     background-color: #3498db;
+     color: white;
+     border-radius: 5px;
+     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+   }
+ </style>
 </head>
 <body>
-  <div class="container">
-    <div class="box">
-      <h1>Hello World!</h1>
-      <p>This is a centered box with some styling.</p>
-    </div>
-  </div>
+ <div class="container">
+   <div class="box">
+     <h1>Hello World!</h1>
+     <p>This is a centered box with some styling.</p>
+   </div>
+ </div>
 </body>
 </html>
 \`\`\`
@@ -648,11 +779,11 @@ This creates a centered box with a blue background and white text.`)
       const avatarDiv = document.createElement("div")
       avatarDiv.className = "message-avatar"
       avatarDiv.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-            `
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+               </svg>
+           `
 
       const contentDiv = document.createElement("div")
       contentDiv.className = "message-content"
@@ -708,9 +839,9 @@ This creates a centered box with a blue background and white text.`)
       const appCard = document.createElement("div")
       appCard.className = "app-card"
       appCard.innerHTML = `
-                <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
-                <div class="app-name">${app.name}</div>
-            `
+               <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
+               <div class="app-name">${app.name}</div>
+           `
 
       appCard.addEventListener("click", () => {
         let url
@@ -947,10 +1078,10 @@ This creates a centered box with a blue background and white text.`)
       gameCard.className = "game-card"
       gameCard.setAttribute("data-category", game.category)
       gameCard.innerHTML = `
-                <div class="game-category">${game.category}</div>
-                <img src="${game.icon}" alt="${game.name}" class="game-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
-                <div class="game-name">${game.name}</div>
-            `
+               <div class="game-category">${game.category}</div>
+               <img src="${game.icon}" alt="${game.name}" class="game-icon" onerror="this.src='/placeholder.svg?height=80&width=80'">
+               <div class="game-name">${game.name}</div>
+           `
 
       gameCard.addEventListener("click", () => {
         if (game.url) {
